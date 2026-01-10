@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
+import swervelib.telemetry.SwerveDriveTelemetry;
+import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class SwerveSubsystem extends SubsystemBase {
     private SwerveDrive swerveDrive;
@@ -25,6 +27,7 @@ public class SwerveSubsystem extends SubsystemBase {
         } catch (IOException e) {
             throw new RuntimeException("Failed to initialize swerve drive", e);
         }
+        SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     }
 
     public Command driveCommand(DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier headingSupplier, BooleanSupplier fieldOriented) {
