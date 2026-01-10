@@ -42,7 +42,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    drivetrain.setDefaultCommand(drivetrain.driveCommand(() -> -m_driverController.getLeftY(), () -> -m_driverController.getLeftX(), () -> -m_driverController.getRightX(), () -> false));
+    drivetrain.setDefaultCommand(drivetrain.driveCommand(() -> -m_driverController.getLeftY(), () -> -m_driverController.getLeftX(), () -> -m_driverController.getRightX(), () -> true));
   }
 
   /**
