@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
@@ -27,11 +28,14 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public Command driveCommand(DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier headingSupplier, BooleanSupplier fieldOriented) {
-        return new Command() {
-            @Override
-            public void execute() {
-                swerveDrive.drive(new Translation2d(translationXSupplier.getAsDouble() * swerveDrive.getMaximumChassisVelocity(), translationYSupplier.getAsDouble() * swerveDrive.getMaximumChassisVelocity()), headingSupplier.getAsDouble() * swerveDrive.getMaximumChassisAngularVelocity(), fieldOriented.getAsBoolean(), false);
-            }
-        };
+        return Commands.run(
+                () -> swerveDrive.drive(
+                        new Translation2d(
+                                translationXSupplier.getAsDouble() * swerveDrive.getMaximumChassisVelocity(),
+                                translationYSupplier.getAsDouble() * swerveDrive.getMaximumChassisVelocity()),
+                        headingSupplier.getAsDouble() * swerveDrive.getMaximumChassisAngularVelocity(),
+                        fieldOriented.getAsBoolean(),
+                        false),
+                this);
     }
 }
