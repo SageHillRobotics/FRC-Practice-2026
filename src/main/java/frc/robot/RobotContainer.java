@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,7 +43,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    drivetrain.setDefaultCommand(drivetrain.driveCommand(() -> MathUtil.applyDeadband(-m_driverController.getLeftY(), 0.2), () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), 0.2), () -> MathUtil.applyDeadband(-m_driverController.getRightX(), 0.2), () -> true));
+    drivetrain.setDefaultCommand(drivetrain.drive(() -> MathUtil.applyDeadband(-m_driverController.getLeftY(), 0.1) * SwerveModule.MAX_SPEED, () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), 0.1) * SwerveModule.MAX_SPEED, () -> MathUtil.applyDeadband(-m_driverController.getRightX(), 0.1) * SwerveModule.MAX_ANGULAR_RATE));
   }
 
   /**
