@@ -21,11 +21,10 @@ public class SwerveSubsystem extends SubsystemBase {
     public static final double CHASSIS_LENGTH = Units.inchesToMeters(28);
 
     private SwerveModule[] swerveModules = new SwerveModule[]{
-        // TODO: invert motors if necessary
-        new SwerveModule(1, 2, false, false),
-        new SwerveModule(3, 4, false, false),
-        new SwerveModule(5, 6, false, false),
-        new SwerveModule(7, 8, false, false)
+        new SwerveModule(1, 2, true, true),
+        new SwerveModule(3, 4, true, true),
+        new SwerveModule(5, 6, true, true),
+        new SwerveModule(7, 8, true, true)
     };
 
     private Pigeon2 pigeon = new Pigeon2(13);
@@ -36,23 +35,6 @@ public class SwerveSubsystem extends SubsystemBase {
         new Translation2d(-CHASSIS_LENGTH / 2, CHASSIS_WIDTH / 2),
         new Translation2d(-CHASSIS_LENGTH / 2, -CHASSIS_WIDTH / 2)
     );
-
-    private SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, new Rotation2d(), new SwerveModulePosition[]{
-        new SwerveModulePosition(swerveModules[0].getDrivePosition(), Rotation2d.fromRadians(swerveModules[0].getSteerPosition())),
-        new SwerveModulePosition(swerveModules[1].getDrivePosition(), Rotation2d.fromRadians(swerveModules[1].getSteerPosition())),
-        new SwerveModulePosition(swerveModules[2].getDrivePosition(), Rotation2d.fromRadians(swerveModules[2].getSteerPosition())),
-        new SwerveModulePosition(swerveModules[3].getDrivePosition(), Rotation2d.fromRadians(swerveModules[3].getSteerPosition()))
-    });
-
-    @Override
-    public void periodic() {
-        odometry.update(Rotation2d.fromRadians(getHeading()), new SwerveModulePosition[]{
-            new SwerveModulePosition(swerveModules[0].getDrivePosition(), Rotation2d.fromRadians(swerveModules[0].getSteerPosition())),
-            new SwerveModulePosition(swerveModules[1].getDrivePosition(), Rotation2d.fromRadians(swerveModules[1].getSteerPosition())),
-            new SwerveModulePosition(swerveModules[2].getDrivePosition(), Rotation2d.fromRadians(swerveModules[2].getSteerPosition())),
-            new SwerveModulePosition(swerveModules[3].getDrivePosition(), Rotation2d.fromRadians(swerveModules[3].getSteerPosition()))
-        });
-    }
 
     public Command drive(DoubleSupplier translationX, DoubleSupplier translationY, DoubleSupplier rotationRate) {
         return run(() -> {
@@ -75,5 +57,13 @@ public class SwerveSubsystem extends SubsystemBase {
         for (int i = 0; i < swerveModules.length; i++) {
             swerveModules[i].setDesiredState(states[i]);
         }
+    }
+
+    public SwerveModuleState[] getModuleStates() {
+        SwerveModuleState[] states = new SwerveModuleState[swerveModules.length];
+        for (int i = 0; i < swerveModules.length; i++) {
+            states[i] = swerveModules[i].getState();
+        }
+        return states;
     }
 }
