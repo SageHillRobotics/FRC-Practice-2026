@@ -23,7 +23,7 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-        drivetrain.setDefaultCommand(drivetrain.driveJoystickCommand(() -> MathUtil.applyDeadband(-m_driverController.getLeftY(), 0.1), () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), 0.1), () -> MathUtil.applyDeadband(-m_driverController.getRightX(), 0.1), () -> false));
+        drivetrain.setDefaultCommand(drivetrain.driveCommand(() -> MathUtil.applyDeadband(-m_driverController.getLeftY() * drivetrain.swerveDrive.getMaximumChassisVelocity(), 0.1), () -> MathUtil.applyDeadband(-m_driverController.getLeftX() * drivetrain.swerveDrive.getMaximumChassisVelocity(), 0.1), () -> MathUtil.applyDeadband(-m_driverController.getRightX() * drivetrain.swerveDrive.getMaximumChassisAngularVelocity(), 0.1), () -> false));
         m_driverController.a().whileTrue(kitbot.shoot());
         m_driverController.b().whileTrue(kitbot.intake());
         m_driverController.a().or(m_driverController.b()).onFalse(kitbot.stop());

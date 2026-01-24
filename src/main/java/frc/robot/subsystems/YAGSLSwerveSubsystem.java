@@ -17,7 +17,7 @@ import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class YAGSLSwerveSubsystem extends SubsystemBase {
-    private SwerveDrive swerveDrive;
+    public SwerveDrive swerveDrive;
     // TODO!: adjust gear ratio in maximum speed calculation and in swerve config files
     public static double maximumSpeed = 5676 / 6.75 * Math.PI * Units.inchesToMeters(4) / 60;
 
@@ -30,15 +30,12 @@ public class YAGSLSwerveSubsystem extends SubsystemBase {
         SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     }
 
-    public Command driveJoystickCommand(DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier headingSupplier, BooleanSupplier fieldOriented) {
-        return Commands.run(
-                () -> swerveDrive.drive(
-                        new Translation2d(
-                                translationXSupplier.getAsDouble() * swerveDrive.getMaximumChassisVelocity(),
-                                translationYSupplier.getAsDouble() * swerveDrive.getMaximumChassisVelocity()),
-                        headingSupplier.getAsDouble() * swerveDrive.getMaximumChassisAngularVelocity(),
+    public Command driveCommand(DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier headingSupplier, BooleanSupplier fieldOriented) {
+        return Commands.run(() -> swerveDrive.drive(new Translation2d(
+                        translationXSupplier.getAsDouble(),
+                        translationYSupplier.getAsDouble()),
+                        headingSupplier.getAsDouble(),
                         fieldOriented.getAsBoolean(),
-                        false),
-                this);
+                        false), this);
     }
 }
