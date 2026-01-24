@@ -16,11 +16,11 @@
   },
   "encoder": {
     "type": "cancoder",
-    "id": 9,
+    "id": 0,
     "canbus": "rio"
   },
   "inverted": {
-    "drive": true,
+    "drive": false,
     "angle": false
   },
   "absoluteEncoderInverted": false
