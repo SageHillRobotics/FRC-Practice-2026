@@ -23,7 +23,7 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-        drivetrain.setDefaultCommand(drivetrain.driveCommand(() -> MathUtil.applyDeadband(-m_driverController.getLeftY(), 0.1) * YAGSLSwerveSubsystem.maximumSpeed, () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), 0.1) * YAGSLSwerveSubsystem.maximumSpeed, () -> MathUtil.applyDeadband(-m_driverController.getRightX(), 0.1) * Math.PI / 2, () -> false));
+        drivetrain.setDefaultCommand(drivetrain.driveJoystickCommand(() -> -m_driverController.getLeftY(), () -> -m_driverController.getLeftX(), () -> -m_driverController.getRightX(), () -> false));
         m_driverController.a().whileTrue(kitbot.shoot());
         m_driverController.b().whileTrue(kitbot.intake());
         m_driverController.a().or(m_driverController.b()).onFalse(kitbot.stop());
