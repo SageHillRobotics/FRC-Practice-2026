@@ -5,8 +5,6 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.SwerveModule;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.YAGSLSwerveSubsystem;
 import frc.robot.subsystems.KitBot;
 import edu.wpi.first.math.MathUtil;
@@ -28,7 +26,7 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(drivetrain.driveCommand(() -> MathUtil.applyDeadband(-m_driverController.getLeftY(), 0.1) * YAGSLSwerveSubsystem.maximumSpeed, () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), 0.1) * YAGSLSwerveSubsystem.maximumSpeed, () -> MathUtil.applyDeadband(-m_driverController.getRightX(), 0.1) * Math.PI / 2, () -> false));
         m_driverController.a().whileTrue(kitbot.shoot());
         m_driverController.b().whileTrue(kitbot.intake());
-        m_driverController.x().whileTrue(kitbot.eject());
+        m_driverController.a().or(m_driverController.b()).onFalse(kitbot.stop());
     }
 
     public Command getAutonomousCommand() {
