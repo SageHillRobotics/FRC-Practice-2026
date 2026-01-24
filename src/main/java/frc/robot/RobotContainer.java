@@ -27,7 +27,7 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(drivetrain.driveCommand(
             () -> MathUtil.applyDeadband(-m_driverController.getLeftY() * drivetrain.swerveDrive.getMaximumChassisVelocity(), 0.1),
             () -> MathUtil.applyDeadband(-m_driverController.getLeftX() * drivetrain.swerveDrive.getMaximumChassisVelocity(), 0.1),
-            () -> LimelightHelpers.getTV("") ? LimelightHelpers.getTX("") * 0.035 * drivetrain.swerveDrive.getMaximumChassisAngularVelocity() * -1.0 : MathUtil.applyDeadband(-m_driverController.getRightX() * drivetrain.swerveDrive.getMaximumChassisAngularVelocity(), 0.1),
+            () -> LimelightHelpers.getTV("") && m_driverController.a().getAsBoolean() ? LimelightHelpers.getTX("") * 0.035 * drivetrain.swerveDrive.getMaximumChassisAngularVelocity() * -1.0 : MathUtil.applyDeadband(-m_driverController.getRightX() * drivetrain.swerveDrive.getMaximumChassisAngularVelocity(), 0.1),
             () -> false));
         m_driverController.a().whileTrue(kitbot.shoot());
         m_driverController.b().whileTrue(kitbot.intake());
