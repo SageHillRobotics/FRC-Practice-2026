@@ -16,23 +16,23 @@ public class KitBot extends SubsystemBase {
     }
 
     public Command intake() {
-        return Commands.runOnce(() -> {
+        return Commands.run(() -> {
             motor1.set(-1);
             motor2.set(-1);
-        });
+        }, this);
     }
 
     public Command shoot() {
-        return Commands.runOnce(() -> {
+        return Commands.run(() -> {
             motor1.set(-1);
             motor2.set(1);
-        });
+        }, this);
     }
 
-    public Command stop() {
-        return Commands.runOnce(() -> {
+    public Command idle() {
+        return Commands.run(() -> {
             motor1.set(0);
             motor2.set(0);
-        });
+        }, this );
     }
 }

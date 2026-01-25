@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
-    SwerveSubsystem drivetrain = new SwerveSubsystem();
-    KitBot kitbot = new KitBot();
+    public SwerveSubsystem drivetrain = new SwerveSubsystem();
+    public KitBot kitbot = new KitBot();
 
     private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
@@ -29,9 +29,9 @@ public class RobotContainer {
             () -> MathUtil.applyDeadband(-m_driverController.getLeftX() * drivetrain.swerveDrive.getMaximumChassisVelocity(), 0.1),
             () -> LimelightHelpers.getTV("") && m_driverController.a().getAsBoolean() ? LimelightHelpers.getTX("") * 0.035 * drivetrain.swerveDrive.getMaximumChassisAngularVelocity() * -1.0 : MathUtil.applyDeadband(-m_driverController.getRightX() * drivetrain.swerveDrive.getMaximumChassisAngularVelocity(), 0.1),
             () -> false));
+        kitbot.setDefaultCommand(kitbot.idle());
         m_driverController.a().whileTrue(kitbot.shoot());
         m_driverController.b().whileTrue(kitbot.intake());
-        m_driverController.a().or(m_driverController.b()).onFalse(kitbot.stop());
     }
 
     public Command getAutonomousCommand() {
