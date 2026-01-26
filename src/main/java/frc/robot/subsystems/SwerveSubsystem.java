@@ -22,12 +22,18 @@ public class SwerveSubsystem extends SubsystemBase {
     public static double maximumSpeed = 5676 / 6.75 * Math.PI * Units.inchesToMeters(4) / 60;
 
     public SwerveSubsystem() {
-        try {
-            swerveDrive = new SwerveParser(new File(Filesystem.getDeployDirectory(),"swerve")).createSwerveDrive(maximumSpeed);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to initialize swerve drive", e);
-        }
         SwerveDriveTelemetry.verbosity = TelemetryVerbosity.POSE;
+        try {
+            swerveDrive = new SwerveParser(new File(Filesystem.getDeployDirectory(), "swerve")).createSwerveDrive(maximumSpeed);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void periodic() {
+        super.periodic();
+        System.out.println("X: " + swerveDrive.getPose().getX() + " Y: " + swerveDrive.getPose().getY() + " Rot: " + swerveDrive.getPose().getRotation().getDegrees());
     }
 
     public Command driveCommand(DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier headingSupplier, BooleanSupplier fieldOriented) {
