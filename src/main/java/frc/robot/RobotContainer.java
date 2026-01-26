@@ -7,17 +7,24 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.KitBot;
-
+import choreo.auto.AutoFactory;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
-    public SwerveSubsystem drivetrain = new SwerveSubsystem();
-    public KitBot kitbot = new KitBot();
+    private final SwerveSubsystem drivetrain = new SwerveSubsystem();
+    private final KitBot kitbot = new KitBot();
 
     private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+    private final AutoFactory autoFactory = new AutoFactory(
+            drivetrain.swerveDrive::getPose,
+            drivetrain.swerveDrive::resetOdometry,
+            drivetrain::followTrajectory,
+            true,
+            drivetrain);;
 
     public RobotContainer() {
         configureBindings();
@@ -35,7 +42,7 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return Commands.none();
+        return autoFactory.trajectoryCmd("5m_forward_180");
     }
 
     public boolean aimAssistCorrectId() {
