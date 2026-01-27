@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import choreo.trajectory.SwerveSample;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
@@ -63,7 +65,11 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         super.periodic();
-        System.out.println("X: " + swerveDrive.getPose().getX() + " Y: " + swerveDrive.getPose().getY() + " Rot: " + swerveDrive.getPose().getRotation().getDegrees());
+        double robotYaw = swerveDrive.getYaw().getDegrees();
+        LimelightHelpers.SetRobotOrientation("", robotYaw, 0.0, 0.0, 0.0, 0.0, 0.0);
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("");
+        swerveDrive.setVisionMeasurementStdDevs(VecBuilder.fill(.5, .5, 9999999));
+        swerveDrive.addVisionMeasurement(limelightMeasurement.pose,limelightMeasurement.timestampSeconds);
     }
 
     public Command driveCommand(DoubleSupplier translationXSupplier, DoubleSupplier translationYSupplier, DoubleSupplier headingSupplier, BooleanSupplier fieldOriented) {
