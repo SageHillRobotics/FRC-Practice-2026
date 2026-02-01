@@ -39,11 +39,7 @@ public class SwerveSubsystem extends SubsystemBase {
             swerveDrive = new SwerveParser(new File(Filesystem.getDeployDirectory(), "swerve")).createSwerveDrive(maximumSpeed);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        swerveDrive.setModuleEncoderAutoSynchronize(true, 3);
-        swerveDrive.setHeadingCorrection(true);      
-        
+        }        
     }
 
     @Override
