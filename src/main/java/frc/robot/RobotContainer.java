@@ -31,9 +31,9 @@ public class RobotContainer {
 
     private void configureBindings() {
         drivetrain.setDefaultCommand(drivetrain.driveCommand(
-            () -> MathUtil.applyDeadband(-m_driverController.getLeftY() * drivetrain.swerveDrive.getMaximumChassisVelocity(), 0.2),
-            () -> MathUtil.applyDeadband(-m_driverController.getLeftX() * drivetrain.swerveDrive.getMaximumChassisVelocity(), 0.2),
-            () -> aimAssistCorrectId() && m_driverController.a().getAsBoolean() ? LimelightHelpers.getTX("") * 0.01 * drivetrain.swerveDrive.getMaximumChassisAngularVelocity() * -1.0 : MathUtil.applyDeadband(-m_driverController.getRightX() * drivetrain.swerveDrive.getMaximumChassisAngularVelocity(), 0.2),
+            () -> MathUtil.applyDeadband(-m_driverController.getLeftY() * drivetrain.swerveDrive.getMaximumChassisVelocity(), 0.4),
+            () -> MathUtil.applyDeadband(-m_driverController.getLeftX() * drivetrain.swerveDrive.getMaximumChassisVelocity(), 0.4),
+            () -> aimAssistCorrectId() && m_driverController.a().getAsBoolean() ? LimelightHelpers.getTX("") * 0.01 * drivetrain.swerveDrive.getMaximumChassisAngularVelocity() * -1.0 : MathUtil.applyDeadband(-m_driverController.getRightX() * drivetrain.swerveDrive.getMaximumChassisAngularVelocity(), 0.4),
             () -> false));
         kitbot.setDefaultCommand(kitbot.idle());
         m_driverController.a().whileTrue(kitbot.shoot());
